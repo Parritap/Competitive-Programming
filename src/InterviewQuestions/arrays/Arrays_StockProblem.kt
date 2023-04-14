@@ -1,3 +1,5 @@
+package InterviewQuestions.arrays
+
 class Arrays_StockProblem {
 
     class Solution() {
