@@ -1,5 +1,7 @@
 package leetcode.problem_409
 
+import java.util.concurrent.atomic.AtomicInteger
+
 fun main(string: Array<String>) {
     println(longestPalindrome("bananas"))
 }
@@ -7,7 +9,7 @@ fun main(string: Array<String>) {
 fun longestPalindrome(s: String): Int {
     val charArray = s.toCharArray();
     charArray.sort()
-    charArray.forEach { print("$it, ") }
+    charArray.forEach { print(it) }
 
     var c = charArray[0]
     var cantidadPares: Int = 0;
