@@ -4,11 +4,12 @@ import kotlin.contracts.contract
 
 fun main(args: Array<String>) {
 
-    val result = relativeSortArray(arr1, arr2)
-    result.forEach { print("$it, ") }
+    // val result = relativeSortArray(arr1, arr2)
+    // result.forEach { print("$it, ") }
 
-    (0 until 0).forEach { println (it) }
+    (0 until 0).forEach { println(it) }
 }
+
 //Not Efficient
 fun relativeSortArray(arr1: IntArray, arr2: IntArray): IntArray {
     //Declares Int array of size arr1.

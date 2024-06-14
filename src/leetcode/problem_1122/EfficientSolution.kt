@@ -3,10 +3,10 @@ package leetcode.problem_1122
 import java.util.TreeMap
 
 fun main(args: Array<String>) {
-    val arr1 = intArrayOf(2, 21, 43, 38, 0, 42, 33, 7, 24, 13, 12, 27, 12, 24, 5, 23, 29, 48, 30, 31)
-    val arr2 = intArrayOf(2, 42, 38, 0, 43, 21)
-    val result = EfficientSolution().relativeSortArray(arr1, arr2)
-    result.forEach { println("$it, ") }
+   // val arr1 = intArrayOf(2, 21, 43, 38, 0, 42, 33, 7, 24, 13, 12, 27, 12, 24, 5, 23, 29, 48, 30, 31)
+   // val arr2 = intArrayOf(2, 42, 38, 0, 43, 21)
+   // val result = EfficientSolution().relativeSortArray(arr1, arr2)
+   // result.forEach { println("$it, ") }
 }
 
 class EfficientSolution {
