@@ -1,6 +1,8 @@
 package leetcode.problem_2
 
 import java.math.BigInteger
+import kotlin.math.pow
+import kotlin.time.times
 
 /**
  * Example:
@@ -102,23 +104,10 @@ class ListNode(var `val`: Int? = null, var next: ListNode? = null) {
 }
 
 class Solution {
-
+    //TODO
     fun Int.pow(exp: Int): BigInteger {
-        val base = BigInteger.valueOf(this.toLong());
-        var num = BigInteger.valueOf(0)
-        for (i in 0 until exp) {
-            num *= base
-        }
-        return num
+        return BigInteger.valueOf(this.toLong()).pow(exp)
     }
-
-    operator fun Int.times(times: BigInteger): BigInteger {
-        var res = BigInteger.valueOf(0)
-        for (i in 0 until times) {
-
-        }
-    }
-
 
     fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode {
         val n1 = buildNum(l1!!)
@@ -128,12 +117,15 @@ class Solution {
     }
 
     fun buildNum(node: ListNode, num: BigInteger = BigInteger.valueOf(0), digits: Int = 0): BigInteger {
-        val res: BigInteger = num.plus(node.`val`!! * BigInteger.valueOf(10.pow(digits).toLong()))
+        val res: BigInteger =
+            num +
+                    BigInteger.valueOf(node.`val`!!.toLong())
+                        .multiply(10.pow(digits));
         return if (node.next == null) res
         else buildNum(node.next!!, res, digits + 1)
     }
 
-    private fun convertToLinkedList(num: Long): ListNode {
+    private fun convertToLinkedList(num: BigInteger): ListNode {
         val str = num.toString().reversed()
         val start = ListNode(str[0].digitToInt())
         var outer = start
@@ -144,4 +136,3 @@ class Solution {
         return start
     }
 }
-
