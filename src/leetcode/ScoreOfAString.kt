@@ -4,7 +4,11 @@ import kotlin.math.absoluteValue
 
 fun main() {
     //println(sol1("hello"))
-    println(sol2("hello"));
+    //println(sol2("hello"));
+    for (j in 10 downTo 0){
+        println(j)
+    }
+
 }
 
 fun sol2(s: String): Int {
