@@ -1,70 +1,21 @@
 package leetcode.problem_2
 
-import java.math.BigInteger
-import kotlin.math.pow
-import kotlin.time.times
-
-/**
- * Example:
- * var li = ListNode(5)
- * var v = li.`val`
- * Definition for singly-linked list.
- * class ListNode(var `val`: Int) {
- *     var next: ListNode? = null
- * }
- */
-
-
 fun main() {
     val sol = Solution()
-    //val l1 = ListNode(5, ListNode(6))
-    //val l2 = ListNode(5, ListNode(4, ListNode(9)))
-    val l1 = ListNode.arrayToListNode(
-        intArrayOf(
-            1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            1
-        )
-    )
-    val l2 = ListNode.arrayToListNode(intArrayOf(5, 6, 4))
 
-
-    println("l1: ${l1.toString()}\nl2: $l2")
-    println("Numbers are: ${sol.buildNum(l1)} and ${sol.buildNum(l2)}")
-
-    val node = sol.addTwoNumbers(l1, l2)
-    node.print()
+    val l1 = ListNode.arrayToListNode(intArrayOf(9, 9, 9, 9, 9, 9, 9))
+    val l2 = ListNode.arrayToListNode(intArrayOf(9, 9, 9, 9))
+    val res = sol.addTwoNumbers(l1, l2)
+    println(l1)
+    println(l2)
+    println(res)
 }
 
-class ListNode(var `val`: Int? = null, var next: ListNode? = null) {
+
+class ListNode(
+    var `val`: Int? = null,
+    var next: ListNode? = null
+) {
     override fun toString(): String {
         var aux: ListNode? = this
         var str = ""
@@ -103,36 +54,49 @@ class ListNode(var `val`: Int? = null, var next: ListNode? = null) {
     }
 }
 
+
 class Solution {
-    //TODO
-    fun Int.pow(exp: Int): BigInteger {
-        return BigInteger.valueOf(this.toLong()).pow(exp)
+
+    fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode? {
+        return add(l1, l2)
     }
 
-    fun addTwoNumbers(l1: ListNode?, l2: ListNode?): ListNode {
-        val n1 = buildNum(l1!!)
-        val n2 = buildNum(l2!!)
-        //return ListNode(-1, null)
-        return convertToLinkedList(n1 + n2)
+    fun bothNulls(l1: ListNode?, l2: ListNode?): Boolean {
+        return (l1 == null) && (l2 == null)
     }
 
-    fun buildNum(node: ListNode, num: BigInteger = BigInteger.valueOf(0), digits: Int = 0): BigInteger {
-        val res: BigInteger =
-            num +
-                    BigInteger.valueOf(node.`val`!!.toLong())
-                        .multiply(10.pow(digits));
-        return if (node.next == null) res
-        else buildNum(node.next!!, res, digits + 1)
-    }
 
-    private fun convertToLinkedList(num: BigInteger): ListNode {
-        val str = num.toString().reversed()
-        val start = ListNode(str[0].digitToInt())
-        var outer = start
-        for (i in 1 until str.length) {
-            outer.next = ListNode(str[i].digitToInt())
-            outer = outer.next!!
+    private fun add(l1: ListNode?, l2: ListNode?): ListNode {
+        var node1 = l1
+        var node2 = l2
+
+        var n1: Int
+        var n2: Int
+        var carry = 0
+        var current: ListNode? = ListNode(0)
+        val head = current!!
+
+        while (!bothNulls(node1, node2)) {
+
+            n1 = node1?.`val` ?: 0
+            n2 = node2?.`val` ?: 0
+
+            val digit = (n1 + n2).rem(10) + carry
+            carry = if (digit == 10) 1 else (n1 + n2) / 10 // This will be either 1 or 0.
+            current?.`val` = if (digit == 10) 0 else digit
+
+            node1 = node1?.next
+            node2 = node2?.next
+
+            if (!bothNulls(node1, node2)) {
+                current?.next = ListNode(0)
+                current = current?.next!!
+            }
         }
-        return start
+
+        if (carry == 1) {
+            current!!.next = ListNode(1, null)
+        }
+        return head
     }
 }
