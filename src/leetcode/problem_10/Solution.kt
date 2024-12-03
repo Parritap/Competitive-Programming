@@ -27,12 +27,18 @@ import java.util.*
  */
 
 fun main() {
-    val b = Solution().isMatch("aabbbb", "a*b*")
+    //val b = Solution().isMatch("aabcx", "a*b*c")
+    val b = Solution().isMatch("aa", "a*b*")
     println(b)
 
 }
 
 class Solution {
+
+    //Kotlin extension function
+    private fun Stack<String>.getTheLast(): String? {
+        return if (this.isEmpty()) null else this.pop()
+    }
 
     fun isMatch(s: String, p: String): Boolean {
         //First block fills the stack with individual patterns
@@ -50,21 +56,32 @@ class Solution {
         }
         stack.reversed().forEach { println("$it ") }
 
-
         //Now lets check the string s
         val str = Stack<String>()
         s.reversed().forEach { str.push(it.toString()) }
-        var patt: String? = stack.pop() //It is guaranteed that first pop wont be null.
-        var c: String
-        while (!str.empty() || !stack.empty()) {
-            c = str.pop()
-            if (matches(patt, c)) patt = if (!stack.empty()) stack.pop() else null
-            else if (patt?.length == 2 && (c[0] == patt[1] || patt[1] == '.')) {
-                continue
-            } else return false
+        var patt: String? = stack.pop() //It is guaranteed that first pop won't be null.
+        var c: String? = str.pop()
+        while (c != null && (!stack.empty() || !str.empty())) {
+            if (matches(patt, c)) {
+                patt = (if (!stack.empty()) stack.pop() else null)
+                c = str.getTheLast()
+
+            } else if (patt?.length == 2) {
+                if (c[0] == patt[1] || patt[1] == '.') {
+                    c = str.getTheLast()
+                    continue
+                } else {
+                    if (!stack.empty()) {
+                        patt = stack.pop()
+                    }
+                }
+            }
         }
         return str.empty() && stack.empty()
     }
 
     private fun matches(patt: String?, c: String) = patt?.length == 1 && (c == patt || patt[0] == '.')
+
+
 }
+
