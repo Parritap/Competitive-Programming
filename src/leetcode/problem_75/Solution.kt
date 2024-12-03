@@ -1,15 +1,13 @@
 package leetcode.problem_75
 
-import problems.solution
-import java.sql.RowIdLifetime
 
 fun main() {
-    val list = intArrayOf(0, 1, 0)
+    val list = intArrayOf(2, 1, 2)
     Solution().sortColors(list)
     list.forEach { print("$it ") }
 }
 
-//Al parecer es mejor operar con ceros y unos en vez de unos y dos.
+
 class Solution {
     fun sortColors(nums: IntArray): Unit {
         var left = 0
@@ -27,7 +25,7 @@ class Solution {
                 nums[i] = nums[right]
                 nums[right] = 2
                 right--
-                if (mem == 0) continue
+                if (mem == 0 || mem == 2) continue
             }
             i++
         }
