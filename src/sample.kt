@@ -1,4 +1,5 @@
 fun main() {
-    val str = ""
-    print(str.length)
+    print("hola")
+    println("kotlin")
+    println("Python")
 }
