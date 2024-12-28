@@ -1,10 +1,12 @@
 package problems
 
+import kotlin.math.abs
 import kotlin.math.sqrt
 
 fun main() {
-    //println(myPow(0.00001, 2147483647));
-    print(13)
+    println(abs(-2147483648))
+    print(abs(Int.MAX_VALUE))
+    Int.MIN_VALUE
 }
 
 //simple way:
