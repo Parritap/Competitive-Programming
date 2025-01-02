@@ -7,61 +7,46 @@ import java.util.Stack;
 
 public class ReorderList {
     public static void main(String[] args) {
-        ListNode list = ListNode.arrayToListNode(new int[]{1, 2, 3});
+        ListNode list = ListNode.arrayToListNode(new int[]{1, 2, 3, 4, 5, 6, 7});
         list.print();
-        reorderList(list);
+        new ReorderList().reorderList(list);
         list.print();
     }
 
-    public static void reorderList(ListNode head) {
-        if (head == null || head.next == null || head.next.next == null) return;
-        Stack<ListNode> stack = toStack(findMiddle(head));
-        var lastVal = stack.getLast().val;
-        ListNode init = head;
-        ListNode i_next;
-        ListNode tail;
+    public void reorderList(ListNode head) {
+        if (head == null) return;
 
-        while (!stack.isEmpty()) {
-            i_next = init.next;
-            tail = stack.pop();
-            init.next = tail;
-            tail.next = i_next;
-            init = i_next;
+        // Step 1: Find the middle of the list
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
         }
 
-        // Add this line to prevent cycle
-        if (lastVal % 2 == 0) {
-            init.next.next = null;
-        } else {
-            init.next = null;
-        }
-    }
+        // Step 2: Reverse the second half of the list
+        // At this point, second is the first node of the second half of the list.
+        ListNode second = slow.next;
+        slow.next = null; // Breaks link with second half of the list, i.e, second.
+        ListNode node = null; // It is important to initialize node to null.
 
-    public static Stack<ListNode> toStack(ListNode node) {
-        Stack<ListNode> stack = new Stack<>();
-        while (node != null) {
-            stack.push(node);
-            node = node.next;
+        while (second != null) {
+            ListNode temp = second.next; // Node to the right of second.
+            second.next = node; // Reverse the link. Node works as memory to store the previous node so that we can point to the left.
+            node = second; // Move node to the right.
+            second = temp; // Move second to the right.
         }
-        return stack;
-    }
 
-    public static int traverse(ListNode node) {
-        int counter = 0;
-        while (node != null) {
-            counter++;
-            node = node.next;
-        }
-        return counter;
-    }
+        // Step 3: Merge the two halves
+        ListNode first = head;
+        second = node;
 
-    public static ListNode findMiddle(ListNode node) {
-        int n = traverse(node);
-        ListNode tail = node;
-        for (int i = 0; i < n / 2 + 1; i++) {
-            tail = tail.next;
+        while (second != null) {
+            ListNode temp1 = first.next, temp2 = second.next;
+            first.next = second;
+            second.next = temp1;
+            first = temp1;
+            second = temp2;
         }
-        return tail;
     }
 
     public class ListNode {

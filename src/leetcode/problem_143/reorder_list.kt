@@ -1,7 +1,6 @@
 package leetcode.problem_143
 
 import leetcode.classes.ListNode
-import java.util.Stack
 
 
 fun main() {
@@ -12,45 +11,40 @@ fun main() {
 }
 
 fun reorderList(head: ListNode?): Unit {
-    val stack: Stack<ListNode> = head!!.findMiddle().toStack()
-    var init = head
-    var i_next: ListNode?
-    var tail: ListNode
-    var i = 0
-    while (!stack.isEmpty()) {
-        i_next = init!!.next
-        tail = stack.pop()
-        init.next = tail
-        tail.next = i_next
-        init = i_next
-    }
-}
+    // Step 1, find the middle
+    var slow = head
+    var fast = head
 
-fun ListNode.toStack(): Stack<ListNode> {
-    var tail: ListNode? = this
-    val stack: Stack<ListNode> = Stack()
-    while (tail != null) {
-        stack.push(tail)
-        tail = tail.next
+    while (fast?.next != null) {
+        slow = slow!!.next
+        fast = fast.next!!.next
     }
-    return stack
-}
 
-fun traverse(node: ListNode?): Int {
-    var tail = node
-    var counter = 0
-    while (tail != null) {
-        counter++
-        tail = tail.next
-    }
-    return counter
-}
+    // Step 2, reverse the second half
+    var second = slow!!.next
+    var node: ListNode? = null
+    slow.next = null
 
-fun ListNode.findMiddle(): ListNode {
-    val n: Int = traverse(this)
-    var tail: ListNode = this
-    (0 until n / 2 + 1).forEach {
-        tail = tail.next!!
+    while (second != null) {
+        val temp = second.next
+        second.next = node
+        node = second
+        second = temp
     }
-    return tail
+
+    // Step 3, merge the two lists
+    var first = head
+    var last = node
+
+    var temp1: ListNode?
+    var temp2: ListNode?
+
+    while (last != null) {
+        temp1 = first!!.next
+        temp2 = last.next
+        first.next = last
+        last.next = temp1
+        first = temp1
+        last = temp2
+    }
 }
