@@ -1,5 +1,8 @@
 fun main() {
-    print("hola")
-    println("kotlin")
-    println("Python")
+    printSomething("kotlin")
+    printSomething("Cafecito")
+}
+
+fun printSomething(something: String): Unit {
+    println(something)
 }
